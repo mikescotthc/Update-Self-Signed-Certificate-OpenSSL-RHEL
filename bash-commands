@@ -1,0 +1,18 @@
+# OpenSSL will default to /etc/ssl/certs
+# Find directly that contains .crt, .key (and .csr if required)
+
+# Displays current start and end date of *.crt
+$ openssl x509 -noout -text -in *.crt | grep -i -A2 validity
+
+# Now, generate new .csr:
+$ sudo openssl x509 -x509toreq -in *.crt -signkey *.key -out *.csr
+
+# Then check *.csr by:
+$ openssl req -noout -text -in *.csr 
+
+# Now, to renew:
+$ sudo openssl x509 -req -days 365 -in *.csr -signkey *.key -out *.crt
+
+$ sudo yum update ca-certificates
+
+$ sudo reboot now
